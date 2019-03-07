@@ -13,6 +13,7 @@
 }
 
 body {
+  font-family: FiraMono, monospace;
   font-size: 100%;
   margin: 0;
   width: 100%
@@ -38,17 +39,33 @@ section#controls {
   justify-content: center;
 }
 
-button#start-stop,
+button#start-pause,
 button#set-reset {
   border-radius: 0;
   background: #eee;
   border: 2px solid #eee;
   padding: .25em .5em;
   font-size: 2em;
-  width: 15%;
+  width: 4em;
+  cursor: pointer;
 }
 
-button#start-stop {
+button#start-pause:hover,
+button#set-reset:hover,
+input#input:hover,
+button#start-pause:focus,
+button#set-reset:focus,
+input#input:focus,
+button#start-pause:active,
+button#start-pause:active,
+input#input:active {
+  border: 2px solid #aaa;
+  outline: 0 !important;
+}
+
+button::-moz-focus-inner { border : 0px; }
+
+button#start-pause {
   border-top-left-radius: .5em;
   border-bottom-left-radius: .5em;
 }
@@ -58,11 +75,12 @@ input#input {
   border: 2px solid #eee;
   padding: .25em .5em;
   font-size: 2em;
-  width: 30%;
+  width: 5em;
   text-align: center;
 }
 
 ::placeholder {
+  font-family: FiraMono, monospace;
   color: #ccc;
   text-align: center;
 }
@@ -72,3 +90,12 @@ button#set-reset {
   border-bottom-right-radius: .5em;
 }
 
+@media all and (max-width: 420px) {
+
+  button#start-pause,
+  input#input,
+  button#set-reset {
+    font-size: 1.5em;
+  }
+
+}

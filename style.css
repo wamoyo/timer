@@ -1,0 +1,74 @@
+
+/* Styles for our timer */
+@font-face {
+  font-family: 'FiraMono';
+  src: url('/FiraMono-Regular.woff2') format('woff2'),
+       url('/FiraMono-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 100%;
+  margin: 0;
+  width: 100%
+}
+
+noscript {
+  display: block;
+  background: red;
+  padding: .5em 1em;
+  font-size: 1.5em;
+  text-align: center;
+  font-weight: bold;
+}
+
+section#timer {
+  font-family: FiraMono, monospace;
+  text-align: center;
+  font-size: 30vw;
+}
+
+section#controls {
+  display: flex;
+  justify-content: center;
+}
+
+button#start-stop,
+button#set-reset {
+  border-radius: 0;
+  background: #eee;
+  border: 2px solid #eee;
+  padding: .25em .5em;
+  font-size: 2em;
+  width: 15%;
+}
+
+button#start-stop {
+  border-top-left-radius: .5em;
+  border-bottom-left-radius: .5em;
+}
+
+input#input {
+  border-radius: 0;
+  border: 2px solid #eee;
+  padding: .25em .5em;
+  font-size: 2em;
+  width: 30%;
+  text-align: center;
+}
+
+::placeholder {
+  color: #ccc;
+  text-align: center;
+}
+
+button#set-reset {
+  border-top-right-radius: .5em;
+  border-bottom-right-radius: .5em;
+}
+

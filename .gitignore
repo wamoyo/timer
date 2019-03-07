@@ -1,0 +1,7 @@
+node_modules/
+_assets/
+assets/
+*.swp
+*.log
+npm-debug.log*
+

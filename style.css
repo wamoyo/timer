@@ -17,6 +17,7 @@ body {
   font-size: 100%;
   margin: 0;
   width: 100%
+  color: #000;
 }
 
 noscript {
@@ -42,17 +43,15 @@ section#controls {
 button#start-pause,
 button#set-reset {
   border-radius: 0;
-  background: #eee;
-  border: 2px solid #eee;
+  background: #ddd;
+  border: 2px solid #ddd;
   padding: .25em .5em;
   font-size: 2em;
   width: 4em;
+  color: inherit;
   cursor: pointer;
 }
 
-button#start-pause:hover,
-button#set-reset:hover,
-input#input:hover,
 button#start-pause:focus,
 button#set-reset:focus,
 input#input:focus,
@@ -72,11 +71,15 @@ button#start-pause {
 
 input#input {
   border-radius: 0;
-  border: 2px solid #eee;
+  border: 2px solid #ddd;
   padding: .25em .5em;
   font-size: 2em;
   width: 5em;
   text-align: center;
+}
+
+input#input.set {
+  background: #ddd;
 }
 
 ::placeholder {
@@ -99,3 +102,4 @@ button#set-reset {
   }
 
 }
+

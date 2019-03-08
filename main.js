@@ -7,7 +7,9 @@
     var startPause = document.getElementById('start-pause')
     var setReset = document.getElementById('set-reset')
     var input = document.getElementById('input')
-    var duration = 180
+    var duration = null
+    var end
+    var running = false
 
 
     /*
@@ -24,18 +26,45 @@
 
 
     /*
-     * User sets new time
+     * User clicks Set/Reset Button
      */
 
-    setReset.addEventListener('click', function (event) {
+    setReset.addEventListener('click', determineSetReset, false)
+    setReset.addEventListener('keydown', determineSetReset, false)
+
+    function determineSetReset (event) {
+      if (event.type === 'keydown' && event.key !== 'Enter') return
+      if (setReset.textContent == 'Set') setResetValue()
+      else if (setReset.textContent == 'Reset') resetTime()
+    }
+
+    function resetTime () {
       var seconds = totalSeconds(input.value)
       var timeString = createTimeString(seconds)
       duration = seconds
+      timer.textContent = timeString
+    }
+
+    function setResetValue () {
+      var seconds = totalSeconds(input.value)
+      var timeString = createTimeString(seconds)
       setReset.textContent = 'Reset'
-      // TODO pick up here.
-      // Input has to look closed
-      // When use changes input again, the Reset turns back into set
-    }, false)
+      input.value = timeString
+      input.classList.add('set')
+      setReset.blur()
+      // TODO make this detect if anything other than zeros and colons is in the timer div.
+      timer.textContent.match(/00\:00\:00/) || timer.textContent.match(/00\:00/) && resetTime()
+    }
+
+    input.addEventListener('click', changeResetValue, false)
+    input.addEventListener('focus', changeResetValue, false)
+
+    function changeResetValue (event) {
+      duration = null
+      setReset.textContent = 'Set'
+      input.classList.remove('set')
+      input.value = ''
+    }
 
     function totalSeconds (userInput) {
       var timeBlocks = userInput.split(':').reverse()
@@ -58,6 +87,41 @@
       return hourString + leadingMinuteZero + leadingSecondZero
     }
 
+    /*
+     * User Clicks Start
+     */
+
+    startPause.addEventListener('click', determineStartPause, false)
+    startPause.addEventListener('keydown', determineStartPause, false)
+
+    function determineStartPause (event) {
+      if (event.type === 'keydown' && event.key !== 'Enter') return
+      if (startPause.textContent == 'Start') startTimer()
+      else if (startPause.textContent == 'Pause') pauseTimer()
+    }
+
+    function startTimer () {
+      running = true
+      startPause.textContent = 'Pause'
+      end = new Date().valueOf() + totalSeconds(timer.textContent)*1000
+      updateTime()
+    }
+
+    function pauseTimer () {
+      running = false
+      startPause.textContent = 'Start'
+    }
+
+    function updateTime () {
+      if (running) {
+        var now = new Date().valueOf()
+        var remaining = Math.round( (end - now) / 1000 )
+        // TODO Don't use the view as a store of rounded remaining time.
+        timer.textContent = createTimeString(remaining)
+        if ( remaining <= 0) pauseTimer()
+        requestAnimationFrame(updateTime)
+      }
+    }
 
     //User Clicks Set
     //User Clicks Start after Set

@@ -16,8 +16,13 @@ body {
   font-family: FiraMono, monospace;
   font-size: 100%;
   margin: 0;
-  width: 100%
+  width: 100%;
   color: #000;
+  overflow: hidden;
+}
+
+body.end {
+  background: red;
 }
 
 noscript {
@@ -33,6 +38,11 @@ section#timer {
   font-family: FiraMono, monospace;
   text-align: center;
   font-size: 30vw;
+  transition: .75s;
+}
+
+section#timer.hours {
+  font-size: 20vw;
 }
 
 section#controls {
@@ -99,6 +109,16 @@ button#set-reset {
   input#input,
   button#set-reset {
     font-size: 1.5em;
+  }
+
+}
+
+@media all and (min-width: 1200px) {
+
+  button#start-pause,
+  input#input,
+  button#set-reset {
+    font-size: 2.5em;
   }
 
 }

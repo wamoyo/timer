@@ -2,13 +2,14 @@
   "use strict"
   window.addEventListener('load', function (event) {
 
+    var body = document.getElementById('body')
     var timer = document.getElementById('timer')
     var controls = document.getElementById('controls')
     var startPause = document.getElementById('start-pause')
     var setReset = document.getElementById('set-reset')
     var input = document.getElementById('input')
     var duration = null
-    var end
+    var end = 0
     var running = false
 
 
@@ -42,7 +43,9 @@
       var seconds = totalSeconds(input.value)
       var timeString = createTimeString(seconds)
       duration = seconds
+      timeString.length > 5 ? timer.classList.add('hours') : timer.classList.remove('hours')
       timer.textContent = timeString
+      body.classList.remove('end')
     }
 
     function setResetValue () {
@@ -52,8 +55,7 @@
       input.value = timeString
       input.classList.add('set')
       setReset.blur()
-      // TODO make this detect if anything other than zeros and colons is in the timer div.
-      timer.textContent.match(/00\:00\:00/) || timer.textContent.match(/00\:00/) && resetTime()
+      timer.textContent.match(/00\:00\:00/) || timer.textContent.match(/00\:00/) && resetTime() // TODO make this detect if anything other than zeros and colons is in the timer div.
     }
 
     input.addEventListener('click', changeResetValue, false)
@@ -103,7 +105,7 @@
     function startTimer () {
       running = true
       startPause.textContent = 'Pause'
-      end = new Date().valueOf() + totalSeconds(timer.textContent)*1000
+      end = ( new Date().valueOf() + totalSeconds(timer.textContent)*1000 ) || 0
       updateTime()
     }
 
@@ -115,23 +117,20 @@
     function updateTime () {
       if (running) {
         var now = new Date().valueOf()
-        var remaining = Math.round( (end - now) / 1000 )
-        // TODO Don't use the view as a store of rounded remaining time.
-        timer.textContent = createTimeString(remaining)
-        if ( remaining <= 0) pauseTimer()
+        var remaining = Math.round( (end - now) / 1000 ) // TODO Don't use the view as a store of rounded remaining time.
+        var remainingString = createTimeString(remaining)
+        timer.textContent != remainingString && (timer.textContent = remainingString)
+        timer.textContent.length <= 5 && timer.classList.remove('hours')
+        if ( remaining <= 0) endTimer()
         requestAnimationFrame(updateTime)
       }
     }
 
-    //User Clicks Set
-    //User Clicks Start after Set
-    //User Clicks Start before Set
-    //User Clicks Reset while Timer is Running
-    //User Clicks Reset while Timer is Paused
-    //User Sets new characters while Timer is running
-    //User Clicks Pause while Timer is Running
-    //User Clicks Start while Timer is Paused
-
+    function endTimer () {
+      running = false
+      startPause.textContent = 'Start'
+      body.classList.add('end')
+    }
 
   }, false)
 }());
